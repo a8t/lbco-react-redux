@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux'
+
 import {
   START_LOADING,
   STOP_LOADING,
@@ -7,34 +9,71 @@ import {
  
 const initialState = {
   isLoading: false,
-  results: [],
   searchValue: '',
+  results: [],
+  selectedResult: {},
 };
  
-export default function locationSearch(state = initialState, action) {
+function isLoading(state = false, action) {
   switch(action.type) {
+    case RESET_SEARCH:
+      return false;
+
     case START_LOADING:
-      return {
-        ...state,
-        isLoading: true
-      };
+      return true;
 
     case STOP_LOADING:
-      return {
-        ...state,
-        isLoading: false,
-      };
-
-    case RESET_SEARCH:
-      return initialState;
-
-    case SET_SEARCH_VALUE:
-      return {
-        ...state,
-        searchValue: action.searchValue,
-      };
+      return false;
 
     default:
       return state;
   }
 }
+ 
+function searchValue(state = '', action) {
+  switch(action.type) {
+    case RESET_SEARCH:
+      return '';
+
+    case SET_SEARCH_VALUE:
+      return action.searchValue;
+
+    default:
+      return state;
+  }
+}
+ 
+function results(state = [], action) {
+  switch(action.type) {
+    case RESET_SEARCH:
+      return false;
+
+    case START_LOADING:
+      return true;
+
+    case STOP_LOADING:
+      return false;
+
+    default:
+      return state;
+  }
+}
+
+function selectedResult(state = {}, action) {
+  switch(action.type) {
+    case RESET_SEARCH:
+      return {};
+
+    default:
+      return state;
+  }
+}
+
+const locationSearch = combineReducers({
+  isLoading,
+  searchValue,
+  results,
+  selectedResult,
+})
+ 
+export default locationSearch

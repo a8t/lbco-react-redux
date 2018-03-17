@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -11,8 +12,6 @@ import App from './containers/App/App';
 import registerServiceWorker from './registerServiceWorker';
 
 const root = document.getElementById('root');
-
-console.log(store.getState())
 
 ReactDOM.render((
   <Provider store={store}>

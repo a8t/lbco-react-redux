@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import LocationSearchContainer from 'containers/LocationSearchContainer/LocationSearchContainer'
+import LocationSearchPage from '../LocationSearchPage/LocationSearchPage';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <LocationSearchContainer/>
+      <div className='App'>
+        <LocationSearchPage/>
       </div>
     );
   }

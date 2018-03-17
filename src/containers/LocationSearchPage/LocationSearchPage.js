@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import LocationSearch from "components/LocationSearch/LocationSearch";
 import {
+  resetSearch,
   setSearchValue,
   fetchAddresses
 } from "redux/actions/locationSearchActions";
@@ -10,7 +11,11 @@ const mapDispatchToProps = dispatch => {
 
   const handleSearchChange = (e, { value }) => {
     dispatch(setSearchValue(value));
-    dispatch(fetchAddresses(value));
+    if (value.length < 1) {
+      dispatch(resetSearch());
+    } else {
+      dispatch(fetchAddresses(value));
+    }
   };
 
   return {
@@ -28,8 +33,8 @@ const mapStateToProps = state => {
   };
 };
 
-const LocationSearchContainer = connect(mapStateToProps, mapDispatchToProps)(
+const LocationSearchPage = connect(mapStateToProps, mapDispatchToProps)(
   LocationSearch
 );
 
-export default LocationSearchContainer;
+export default LocationSearchPage;

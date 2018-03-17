@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import LocationSearchContainer from 'containers/LocationSearchContainer/LocationSearchContainer'
 
 class App extends Component {

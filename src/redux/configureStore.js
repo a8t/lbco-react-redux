@@ -1,8 +1,15 @@
-import { combineReducers, createStore } from 'redux';
-import locationSearch from 'redux/reducers/locationSearch';
+import { createStore, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger'
+import thunk from 'redux-thunk';
 
-const app =  combineReducers({locationSearch});
+import rootReducer from 'redux/reducers/index';
 
-let store = createStore(app);
+const loggerMiddleware = createLogger()
+const middleware = applyMiddleware(thunk, loggerMiddleware);
+
+let store = createStore(
+  rootReducer,
+  middleware
+);
 
 export default store;

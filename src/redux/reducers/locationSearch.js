@@ -8,12 +8,14 @@ import {
   SET_SEARCH_VALUE,
   SET_RESULTS
 } from "redux/actions/locationSearchActions";
+
 const initialState = {
   isLoading: false,
   searchValue: "",
   results: [],
   selectedResult: {}
 };
+
 function isLoading(state = initialState.isLoading, action) {
   switch (action.type) {
     case RESET_SEARCH:
@@ -46,6 +48,9 @@ function searchValue(state = initialState.searchValue, action) {
 }
 function results(state = initialState.results, action) {
   switch (action.type) {
+    case RESET_SEARCH:
+      return initialState.results;
+
     case SET_RESULTS:
       return action.results;
 

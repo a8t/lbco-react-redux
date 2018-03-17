@@ -1,6 +1,8 @@
 import axios from "axios";
+import { debounce } from "lodash";
 import { googleMapsKey } from "../../api/googleMapsApi";
 import { lcboKey, lcboUrl } from "../../api/lcboapi";
+import { locationSearchResults } from '../../mockData/mockData'
 
 export const RESET_SEARCH = "RESET_SEARCH";
 export const resetSearch = () => {
@@ -26,14 +28,14 @@ export const setResults = results => {
 };
 
 export const FETCH_ADDRESSES_START = "FETCH_ADDRESSES_START";
-const fetchAddressesStart = address => {
+const fetchAddressesStart = () => {
   return {
     type: FETCH_ADDRESSES_START
   };
 };
 
 export const FETCH_ADDRESSES_END = "FETCH_ADDRESSES_END";
-const fetchAddressesEnd = address => {
+const fetchAddressesEnd = () => {
   return {
     type: FETCH_ADDRESSES_END
   };
@@ -46,26 +48,40 @@ const fetchAddressesError = () => {
   };
 };
 
+const getLcboLocations = debounce((dispatch, address) => {
+  dispatch(fetchAddressesEnd());
+  dispatch(
+    setResults(locationSearchResults)
+  );
+  return;
+
+  const mapsUrl = "https://maps.googleapis.com/maps/api/geocode/json";
+  const mapsQuery = `?address=${address}&components=country:CA&key=${googleMapsKey}`;
+  axios
+    .get(`${mapsUrl}${mapsQuery}`)
+    .then(response => {
+      const { lat, lng } = response.data.results[0].geometry.location;
+      const lcboEndpoint = `${lcboUrl}/stores?lat=${lat}&lon=${lng}&access_key=${lcboKey}`;
+      return axios.get(lcboEndpoint);
+    })
+    .then(response => {
+      const addKey = each => {
+        return { ...each, key: each.id };
+      };
+      dispatch(setResults(response.data.result.slice(0, 4).map(addKey)));
+      dispatch(fetchAddressesEnd());
+    })
+    .catch(e => {
+      dispatch(fetchAddressesError());
+    });
+}, 500);
+
 export const fetchAddresses = address => {
   return function(dispatch) {
-    dispatch(fetchAddressesStart(address));
-
-    const mapsUrl = "https://maps.googleapis.com/maps/api/geocode/json";
-    const mapsQuery = `?address=${address}&components=country:CA&key=${googleMapsKey}`;
-    const geocode = axios
-      .get(`${mapsUrl}${mapsQuery}`)
-      .then(response => {
-        const { lat, lng } = response.data.results[0].geometry.location;
-        const lcboEndpoint = `${lcboUrl}/stores?lat=${lat}&lon=${lng}&access_key=${lcboKey}`;
-        return axios.get(lcboEndpoint);
-      })
-      .then(response => {
-        dispatch(setResults(response.data.result.slice(0, 4)));
-        dispatch(fetchAddressesEnd());
-      })
-      .catch(e => {
-        dispatch(fetchAddressesError());
-      });
-    return geocode;
+    if (address.length < 3) {
+      return;
+    }
+    dispatch(fetchAddressesStart());
+    getLcboLocations(dispatch, address);
   };
 };

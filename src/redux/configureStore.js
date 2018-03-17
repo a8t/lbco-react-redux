@@ -1,4 +1,8 @@
-import { createStore } from 'redux'
-import app from './reducers/index'
+import { combineReducers, createStore } from 'redux';
+import locationSearch from 'redux/reducers/locationSearch';
 
-let store = createStore(app)
+const app =  combineReducers({locationSearch});
+
+let store = createStore(app);
+
+export default store;

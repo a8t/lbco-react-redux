@@ -5,7 +5,7 @@ import {
   STOP_LOADING,
   RESET_SEARCH,
   SET_SEARCH_VALUE,
-} from '../actions/LocationSearchActions';
+} from 'redux/actions/locationSearchActions';
  
 const initialState = {
   isLoading: false,
@@ -14,7 +14,7 @@ const initialState = {
   selectedResult: {},
 };
  
-function isLoading(state = false, action) {
+function isLoading(state = initialState.isLoading, action) {
   switch(action.type) {
     case RESET_SEARCH:
       return false;
@@ -30,7 +30,7 @@ function isLoading(state = false, action) {
   }
 }
  
-function searchValue(state = '', action) {
+function searchValue(state = initialState.searchValue, action) {
   switch(action.type) {
     case RESET_SEARCH:
       return '';
@@ -43,23 +43,14 @@ function searchValue(state = '', action) {
   }
 }
  
-function results(state = [], action) {
+function results(state = initialState.results, action) {
   switch(action.type) {
-    case RESET_SEARCH:
-      return false;
-
-    case START_LOADING:
-      return true;
-
-    case STOP_LOADING:
-      return false;
-
     default:
       return state;
   }
 }
 
-function selectedResult(state = {}, action) {
+function selectedResult(state = initialState.selectedResult, action) {
   switch(action.type) {
     case RESET_SEARCH:
       return {};
@@ -74,6 +65,6 @@ const locationSearch = combineReducers({
   searchValue,
   results,
   selectedResult,
-})
+});
  
-export default locationSearch
+export default locationSearch;

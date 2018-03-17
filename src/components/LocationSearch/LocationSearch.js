@@ -1,7 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Search } from "semantic-ui-react";
-import styled from "styled-components";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Search } from 'semantic-ui-react';
+import styled from 'styled-components';
+import Result from './LocationSearchResult'
 
 const Div = styled.div`
   position: relative;

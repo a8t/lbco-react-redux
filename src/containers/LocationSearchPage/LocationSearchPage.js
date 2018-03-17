@@ -1,10 +1,10 @@
-import { connect } from "react-redux";
-import LocationSearch from "components/LocationSearch/LocationSearch";
+import { connect } from 'react-redux';
+import LocationSearch from 'components/LocationSearch/LocationSearch';
 import {
   resetSearch,
   setSearchValue,
   fetchAddresses
-} from "redux/actions/locationSearchActions";
+} from 'redux/actions/locationSearchActions';
 
 const mapDispatchToProps = dispatch => {
   const handleResultSelect = (e, { result }) => {};

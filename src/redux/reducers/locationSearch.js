@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
 import {
   FETCH_ADDRESSES_START,
@@ -7,11 +7,11 @@ import {
   RESET_SEARCH,
   SET_SEARCH_VALUE,
   SET_RESULTS
-} from "redux/actions/locationSearchActions";
+} from 'redux/actions/locationSearchActions';
 
 const initialState = {
   isLoading: false,
-  searchValue: "",
+  searchValue: '',
   results: [],
   selectedResult: {}
 };
@@ -37,7 +37,7 @@ function isLoading(state = initialState.isLoading, action) {
 function searchValue(state = initialState.searchValue, action) {
   switch (action.type) {
     case RESET_SEARCH:
-      return "";
+      return '';
 
     case SET_SEARCH_VALUE:
       return action.searchValue;

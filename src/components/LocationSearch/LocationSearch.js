@@ -11,7 +11,7 @@ const Div = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding-top: 20%;
+  padding-top: 20vh;
   font-size: 1em;
 `;
 
@@ -21,55 +21,16 @@ const Label = styled.span`
   color: rgba(0, 0, 0, 0.8);
 `;
 
-const ResultDiv = styled.div``;
-const TitleDiv = styled.div`
-  font-weight: 800;
-`;
-
-const resultRenderer = props => {
-  const { address_line_1, distance_in_meters, name } = props;
-
-  const toKilometers = distance_in_meters =>
-    (distance_in_meters / 1000).toFixed(1);
-  const formattedDistance =
-    distance_in_meters < 999
-      ? `${String(Math.round(distance_in_meters / 10) * 10)} m`
-      : `${toKilometers(distance_in_meters)} km`;
-
-  const isOpen = () => {
-    const currentDateTime = new Date();
-    const currentMilitaryTime =
-      String(currentDateTime.getHours()) + String(currentDateTime.getMinutes());
-    const days = [
-      "sunday",
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday"
-    ];
-    const currentDayOfWeek = days[currentDateTime.getDay()];
-    const currentDayOpenTime = props[`${currentDayOfWeek}_open`];
-    const currentDayCloseTime = props[`${currentDayOfWeek}_close`];
-    return currentMilitaryTime > currentDayOpenTime && currentMilitaryTime < currentDayCloseTime;
-  };
-
-  return (
-    <ResultDiv>
-      <TitleDiv>{name}</TitleDiv>
-      {address_line_1} — {formattedDistance} ({isOpen ? "Open" : "Closed"})
-    </ResultDiv>
-  );
-};
-
 const LocationSearchMain = styled(Search)`
   &&& {
     width: 80vw;
+    max-width: 400px;
   }
 
-  input {
+  .input {
+    font-size: 1.5em;
     width: 80vw;
+    max-width: 400px;
   }
 `;
 
@@ -81,7 +42,8 @@ const LocationSearch = props => {
         fluid
         autoFocus
         {...props}
-        resultRenderer={resultRenderer}
+        open
+        resultRenderer={Result}
       />
     </Div>
   );

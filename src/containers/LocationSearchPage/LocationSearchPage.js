@@ -3,11 +3,19 @@ import LocationSearch from 'components/LocationSearch/LocationSearch';
 import {
   resetSearch,
   setSearchValue,
-  fetchAddresses
+  fetchAddresses,
+  selectResult,
+  deselectAllResults,
 } from 'redux/actions/locationSearchActions';
 
 const mapDispatchToProps = dispatch => {
-  const handleResultSelect = (e, { result }) => {};
+  const handleResultSelect = (e, { result }) => {
+    if (result.resultSelected) {
+      dispatch(deselectAllResults());
+    } else {
+      dispatch(selectResult(result.key, result['data-result']));
+    }
+  };
 
   const handleSearchChange = (e, { value }) => {
     dispatch(setSearchValue(value));

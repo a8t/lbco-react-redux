@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { locationSearchResults } from '../../mockData/mockData';
 
 import {
   FETCH_ADDRESSES_START,
@@ -6,13 +7,20 @@ import {
   FETCH_ADDRESSES_ERROR,
   RESET_SEARCH,
   SET_SEARCH_VALUE,
-  SET_RESULTS
+  SET_RESULTS,
+  SELECT_RESULT,
+  DESELECT_RESULTS
 } from 'redux/actions/locationSearchActions';
 
 const initialState = {
   isLoading: false,
   searchValue: '',
-  results: [],
+  results: locationSearchResults.map(each => {
+    return {
+      key: each.key,
+      'data-result': each
+    };
+  }),
   selectedResult: {}
 };
 
@@ -53,6 +61,32 @@ function results(state = initialState.results, action) {
 
     case SET_RESULTS:
       return action.results;
+
+    case SELECT_RESULT:
+      return state.map(
+        each =>
+          each.key === action.resultKey
+            ? {
+                'data-result': {
+                  ...each['data-result'],
+                  resultSelected: true
+                },
+                key: each.key
+              }
+            : {
+                'data-result': {
+                  ...each['data-result'],
+                  resultSelected: false
+                },
+                key: each.key
+              }
+      );
+
+    case DESELECT_RESULTS:
+      return state.map(each => ({
+        ...each,
+        resultSelected: false
+      }));
 
     case FETCH_ADDRESSES_ERROR:
       return initialState.results;

@@ -2,7 +2,6 @@ import axios from "axios";
 import { debounce } from "lodash";
 import { googleMapsKey } from "../../api/googleMapsApi";
 import { lcboKey, lcboUrl } from "../../api/lcboapi";
-import { locationSearchResults } from '../../mockData/mockData'
 
 export const RESET_SEARCH = "RESET_SEARCH";
 export const resetSearch = () => {
@@ -24,6 +23,21 @@ export const setResults = results => {
   return {
     type: SET_RESULTS,
     results: results
+  };
+};
+
+export const SELECT_RESULT = "SELECT_RESULT";
+export const selectResult = resultKey => {
+  return {
+    type: SELECT_RESULT,
+    resultKey: resultKey
+  };
+};
+
+export const DESELECT_RESULTS = "DESELECT_RESULTS";
+export const deselectAllResults = () => {
+  return {
+    type: DESELECT_RESULTS,
   };
 };
 
@@ -49,12 +63,6 @@ const fetchAddressesError = () => {
 };
 
 const getLcboLocations = debounce((dispatch, address) => {
-  dispatch(fetchAddressesEnd());
-  dispatch(
-    setResults(locationSearchResults)
-  );
-  return;
-
   const mapsUrl = "https://maps.googleapis.com/maps/api/geocode/json";
   const mapsQuery = `?address=${address}&components=country:CA&key=${googleMapsKey}`;
   axios
@@ -66,7 +74,10 @@ const getLcboLocations = debounce((dispatch, address) => {
     })
     .then(response => {
       const addKey = each => {
-        return { ...each, key: each.id };
+        return {
+          key: each.id,
+          'data-result': { ...each, resultSelected: false },
+        };
       };
       dispatch(setResults(response.data.result.slice(0, 4).map(addKey)));
       dispatch(fetchAddressesEnd());

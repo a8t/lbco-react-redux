@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import locationSearch from 'redux/reducers/locationSearch';
+import locationSearch from 'redux/reducers/locationSearchReducers';
 
 const rootReducer =  combineReducers({locationSearch});
 

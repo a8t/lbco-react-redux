@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
-import LocationSearch from 'components/LocationSearch/LocationSearch';
 import { push } from 'react-router-redux'
+import LocationSearch from '../../components/LocationSearch/LocationSearch';
 import {
   resetSearch,
   setSearchValue,
   fetchAddresses,
   selectResult,
   deselectAllResults,
-} from 'redux/actions/locationSearchActions';
+} from '../../redux/actions/locationActions';
 
 const mapDispatchToProps = dispatch => {
   const handleResultSelect = (e, { result }) => {
@@ -35,7 +35,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  const { isLoading, results, searchValue } = state.rootReducer.locationSearch;
+  const { isLoading, results, searchValue } = state.rootReducer.location;
   return {
     loading: isLoading,
     results: results,

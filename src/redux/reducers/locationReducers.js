@@ -10,7 +10,7 @@ import {
   SET_RESULTS,
   SELECT_RESULT,
   DESELECT_RESULTS
-} from 'redux/actions/locationSearchActions';
+} from 'redux/actions/locationActions';
 
 const initialState = {
   isLoading: false,
@@ -106,10 +106,10 @@ function selectedResult(state = initialState.selectedResult, action) {
   }
 }
 
-const locationSearch = combineReducers({
+const location = combineReducers({
   isLoading,
   searchValue,
   results,
   selectedResult
 });
-export default locationSearch;
+export default location;

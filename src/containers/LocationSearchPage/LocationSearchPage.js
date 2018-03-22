@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import LocationSearch from 'components/LocationSearch/LocationSearch';
+import { push } from 'react-router-redux'
 import {
   resetSearch,
   setSearchValue,
@@ -10,6 +11,7 @@ import {
 
 const mapDispatchToProps = dispatch => {
   const handleResultSelect = (e, { result }) => {
+    dispatch(push('/about'))
     if (result.resultSelected) {
       dispatch(deselectAllResults());
     } else {
@@ -33,7 +35,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  const { isLoading, results, searchValue } = state.locationSearch;
+  const { isLoading, results, searchValue } = state.rootReducer.locationSearch;
   return {
     loading: isLoading,
     results: results,
